@@ -1197,6 +1197,7 @@
     const pKey = `${c.sprite}_${player.anim}`;
     const pAsset = images[pKey];
     const pScale = (pAsset && pAsset.frameW ? (c.w / pAsset.frameW) : 1) * CHAR_SCALE;
+    console.log("draw player", c.id, CHAR_SCALE, pScale, pAsset?.frameW);
 
     const flash = player.invuln > 0 && Math.floor(performance.now() / 80) % 2 === 0;
     drawSprite(pKey, player.x, player.y, {
