@@ -17,12 +17,14 @@
   let DESIGN_H = 540;
   let GROUND_Y = 470;
   let CHAR_SCALE = 1;
+  let MOBILE_ENTITY_SCALE = 1;
 
   function refreshMobile() {
     const m = window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
     DESIGN_H = m ? 1200 : 540;
     GROUND_Y = m ? 1080 : 470;
-    CHAR_SCALE = m ? 3 : 1;
+    CHAR_SCALE = m ? 2.1 : 1;
+    MOBILE_ENTITY_SCALE = m ? 1.25 : 1;
   }
   refreshMobile();
   window.addEventListener("resize", refreshMobile);
@@ -676,6 +678,7 @@
     const baseSpeed = rand(lvl.speeds[0], lvl.speeds[1]);
     const speed = baseSpeed * info.mult;
 
+    const s = MOBILE_ENTITY_SCALE;
     const bomb = {
       kind: "bomb",
       type,
@@ -685,9 +688,9 @@
       vy: speed,
       animTime: 0,
       state: "fall",
-      w: info.w,
-      h: info.h,
-      hb: { ...info.hb },
+      w: info.w * s,
+      h: info.h * s,
+      hb: { x: info.hb.x * s, y: info.hb.y * s, w: info.hb.w * s, h: info.hb.h * s },
       rot: 0,
     };
 
@@ -706,15 +709,16 @@
     const weights = { star: 0.55, food: 0.30, heart: 0.05, shield: 0.10 };
     const type = pickWeighted(weights);
     const info = COLLECT_TYPES[type];
+    const s = MOBILE_ENTITY_SCALE;
     entities.push({
       kind: "collectible",
       type,
       x,
       y: -60,
       vy: 150,
-      w: info.w,
-      h: info.h,
-      hb: { ...info.hb },
+      w: info.w * s,
+      h: info.h * s,
+      hb: { x: info.hb.x * s, y: info.hb.y * s, w: info.hb.w * s, h: info.hb.h * s },
       animTime: 0,
       baseX: x,
       bobTime: Math.random() * 10,
@@ -894,6 +898,7 @@
         e.dead = true;
         const count = Math.floor(rand(2, 4));
         const info = BOMB_TYPES.bomb;
+        const s = MOBILE_ENTITY_SCALE;
         for (let k = 0; k < count; k++) {
           const offset = (k - (count - 1) / 2) * 50;
           entities.push({
@@ -905,9 +910,9 @@
             vy: e.vy * rand(0.9, 1.1),
             animTime: 0,
             state: "fall",
-            w: info.w,
-            h: info.h,
-            hb: { ...info.hb },
+            w: info.w * s,
+            h: info.h * s,
+            hb: { x: info.hb.x * s, y: info.hb.y * s, w: info.hb.w * s, h: info.hb.h * s },
             rot: 0,
           });
         }

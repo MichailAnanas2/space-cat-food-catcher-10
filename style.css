@@ -71,6 +71,37 @@ html, body {
     aspect-ratio: auto;
     z-index: 1;
   }
+
+  .touch-controls {
+    height: 100%;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .touch-btn {
+    position: absolute;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: clamp(64px, 18vw, 92px);
+    height: clamp(64px, 18vw, 92px);
+    border-radius: 50%;
+  }
+
+  .touch-left {
+    left: max(10px, env(safe-area-inset-left));
+  }
+
+  .touch-right {
+    right: max(10px, env(safe-area-inset-right));
+  }
+
+  .touch-jump {
+    display: none;
+  }
+
+  .touch-left,
+  .touch-right {
+    margin-bottom: 0;
+  }
 }
 
 #game {
