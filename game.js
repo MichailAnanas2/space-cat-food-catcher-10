@@ -23,6 +23,7 @@
     DESIGN_H = m ? 1200 : 540;
     GROUND_Y = m ? 1080 : 470;
     CHAR_SCALE = m ? 3 : 1;
+    console.log("refreshMobile", m, DESIGN_H, GROUND_Y, CHAR_SCALE);
   }
   refreshMobile();
   window.addEventListener("resize", refreshMobile);
