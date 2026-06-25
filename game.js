@@ -23,7 +23,6 @@
     DESIGN_H = m ? 1200 : 540;
     GROUND_Y = m ? 1080 : 470;
     CHAR_SCALE = m ? 3 : 1;
-    console.log("refreshMobile", m, DESIGN_H, GROUND_Y, CHAR_SCALE);
   }
   refreshMobile();
   window.addEventListener("resize", refreshMobile);
@@ -1197,7 +1196,6 @@
     const pKey = `${c.sprite}_${player.anim}`;
     const pAsset = images[pKey];
     const pScale = (pAsset && pAsset.frameW ? (c.w / pAsset.frameW) : 1) * CHAR_SCALE;
-    console.log("draw player", c.id, CHAR_SCALE, pScale, pAsset?.frameW);
 
     const flash = player.invuln > 0 && Math.floor(performance.now() / 80) % 2 === 0;
     drawSprite(pKey, player.x, player.y, {
