@@ -73,25 +73,40 @@ html, body {
   }
 
   .touch-controls {
-    height: 100%;
-    padding: 0;
+    position: fixed;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 0;
+    right: 0;
+    height: auto;
+    padding: 0 max(10px, env(safe-area-inset-left)) 0 max(10px, env(safe-area-inset-right));
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     pointer-events: none;
+    z-index: 100;
+  }
+
+  .touch-controls > * {
+    pointer-events: auto;
   }
 
   .touch-btn {
-    position: absolute;
-    bottom: max(12px, env(safe-area-inset-bottom));
-    width: clamp(64px, 18vw, 92px);
-    height: clamp(64px, 18vw, 92px);
+    width: clamp(60px, 16vw, 88px);
+    height: clamp(60px, 16vw, 88px);
     border-radius: 50%;
+    position: relative;
+    bottom: auto;
   }
 
   .touch-left {
-    left: max(10px, env(safe-area-inset-left));
+    margin-left: 0;
+    order: 1;
   }
 
   .touch-right {
-    right: max(10px, env(safe-area-inset-right));
+    margin-right: 0;
+    margin-left: 0;
+    order: 3;
   }
 
   .touch-jump {
@@ -620,7 +635,43 @@ h2 {
   }
 
   .touch-controls {
-    padding: 6px 10px;
+    position: fixed;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 0;
+    right: 0;
+    height: auto;
+    padding: 0 max(10px, env(safe-area-inset-left)) 0 max(10px, env(safe-area-inset-right));
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .touch-controls > * {
+    pointer-events: auto;
+  }
+
+  .touch-btn {
+    width: clamp(60px, 16vw, 88px);
+    height: clamp(60px, 16vw, 88px);
+  }
+
+  .touch-left {
+    order: 1;
+  }
+
+  .touch-right {
+    order: 3;
+  }
+
+  .touch-jump {
+    display: none;
+  }
+
+  .touch-left,
+  .touch-right {
+    margin-bottom: 0;
   }
 }
 

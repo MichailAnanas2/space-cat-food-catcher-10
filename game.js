@@ -21,8 +21,8 @@
 
   function refreshMobile() {
     const m = window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
-    DESIGN_H = m ? 1200 : 540;
-    GROUND_Y = m ? 1080 : 470;
+    DESIGN_H = m ? 860 : 540;
+    GROUND_Y = m ? 780 : 470;
     CHAR_SCALE = m ? 2.1 : 1;
     MOBILE_ENTITY_SCALE = m ? 1.25 : 1;
   }
@@ -1136,7 +1136,7 @@
     const offsetX = (screenW - gameW) / 2;
     let offsetY = (screenH - gameH) / 2;
     if (CHAR_SCALE > 1) {
-      const bottomPad = Math.min(screenH * 0.14, 120);
+      const bottomPad = Math.min(screenH * 0.18, 150);
       offsetY = Math.max(offsetY, screenH - gameH - bottomPad);
     }
 
@@ -1160,7 +1160,7 @@
 
     // Platform under player
     const plat = images.platform;
-    if (plat && plat.img.complete) {
+    if (plat && plat.img.complete && CHAR_SCALE <= 1) {
       const pw = 320 * CHAR_SCALE;
       const ph = (plat.img.naturalHeight / plat.img.naturalWidth) * pw;
       ctx.drawImage(plat.img, player.x - pw / 2, GROUND_Y - 6, pw, ph);
