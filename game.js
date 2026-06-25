@@ -14,8 +14,18 @@
   // Constants
   // ============================================================
   const DESIGN_W = 960;
-  const DESIGN_H = 540;
-  const GROUND_Y = 470;
+  let DESIGN_H = 540;
+  let GROUND_Y = 470;
+  let CHAR_SCALE = 1;
+
+  function refreshMobile() {
+    const m = window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
+    DESIGN_H = m ? 1200 : 540;
+    GROUND_Y = m ? 1080 : 470;
+    CHAR_SCALE = m ? 3 : 1;
+  }
+  refreshMobile();
+  window.addEventListener("resize", refreshMobile);
   const GRAVITY = 1200;
   const MAX_LIVES = 3;
   const STORAGE_KEY = "space_animals_dodge_bombs_v1";
@@ -751,9 +761,10 @@
 
   function getPlayerHitbox() {
     const c = selectedChar;
-    const left = player.x - c.w * 0.5 + c.hb.x;
-    const top = player.y - c.h * 0.9 + c.hb.y;
-    return { x: left, y: top, w: c.hb.w, h: c.hb.h };
+    const s = CHAR_SCALE;
+    const left = player.x - c.w * 0.5 * s + c.hb.x * s;
+    const top = player.y - c.h * 0.9 * s + c.hb.y * s;
+    return { x: left, y: top, w: c.hb.w * s, h: c.hb.h * s };
   }
 
   function getEntityHitbox(e) {
@@ -778,7 +789,7 @@
     }
 
     player.x += player.vx * dt;
-    const margin = selectedChar.w / 2 + 10;
+    const margin = (selectedChar.w * CHAR_SCALE) / 2 + 10;
     player.x = clamp(player.x, margin, DESIGN_W - margin);
 
     if (jumpPressed && player.grounded) {
@@ -1118,7 +1129,11 @@
     const gameW = DESIGN_W * gameScale;
     const gameH = DESIGN_H * gameScale;
     const offsetX = (screenW - gameW) / 2;
-    const offsetY = (screenH - gameH) / 2;
+    let offsetY = (screenH - gameH) / 2;
+    if (CHAR_SCALE > 1) {
+      const bottomPad = Math.min(screenH * 0.14, 120);
+      offsetY = Math.max(offsetY, screenH - gameH - bottomPad);
+    }
 
     ctx.save();
     ctx.translate(offsetX, offsetY);
@@ -1141,7 +1156,7 @@
     // Platform under player
     const plat = images.platform;
     if (plat && plat.img.complete) {
-      const pw = 320;
+      const pw = 320 * CHAR_SCALE;
       const ph = (plat.img.naturalHeight / plat.img.naturalWidth) * pw;
       ctx.drawImage(plat.img, player.x - pw / 2, GROUND_Y - 6, pw, ph);
     }
@@ -1180,7 +1195,7 @@
     const c = selectedChar;
     const pKey = `${c.sprite}_${player.anim}`;
     const pAsset = images[pKey];
-    const pScale = pAsset && pAsset.frameW ? (c.w / pAsset.frameW) : 1;
+    const pScale = (pAsset && pAsset.frameW ? (c.w / pAsset.frameW) : 1) * CHAR_SCALE;
 
     const flash = player.invuln > 0 && Math.floor(performance.now() / 80) % 2 === 0;
     drawSprite(pKey, player.x, player.y, {
@@ -1195,11 +1210,11 @@
     // Shield aura
     if (player.shield > 0) {
       ctx.save();
-      ctx.translate(player.x, player.y - c.h * 0.5);
+      ctx.translate(player.x, player.y - c.h * 0.5 * CHAR_SCALE);
       ctx.strokeStyle = "rgba(125, 255, 224, 0.6)";
       ctx.lineWidth = 3 / gameScale;
       ctx.beginPath();
-      const r = c.w * 0.7 + Math.sin(performance.now() / 150) * 4;
+      const r = c.w * 0.7 * CHAR_SCALE + Math.sin(performance.now() / 150) * 4;
       ctx.arc(0, 0, r, 0, Math.PI * 2);
       ctx.stroke();
       ctx.fillStyle = "rgba(125, 255, 224, 0.12)";
